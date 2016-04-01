@@ -8,20 +8,25 @@ import cookielib, urllib2
 from cookielib import CookieJar
 import datetime
 import os
-    
+
+webUrl = 'http://order.ibon.com.tw/index.php?class=order&func=allgenki_V2&game_id=112992&category=ibon'
 
 cj = CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-# webUrl = 'http://ticket.7net.com.tw/index.php?class=order&func=allgenki&game_id=86955&category=ibon'
-webUrl = 'http://ticket.7net.com.tw/index.php?class=order&func=allgenki&game_id=82284&category=ibon'
 soldOut = u'已售完'
 pleaseChoice = u'請選擇'
 
 def playsound(frequency,duration):
    	#apt-get install beep
-    os.system('beep -f %s -l %s' % (frequency,duration))
+    os.system('beep -f %s -l %s > /dev/null 2>&1' % (frequency,duration))
+
+    # mac beep
+    os.system('say "beep" > /dev/null 2>&1')
+
     os.system('/usr/bin/printf "\a"')
+    os.system('clear')
+
 
 def parsingIbonData():
 	isSoldOut = True
@@ -41,9 +46,11 @@ def parsingIbonData():
 
    		if not isSoldOut:
    			playsound(2500, 1000)
-   			playsound(2500, 1000)
-   			
-   			print datetime.datetime.now().strftime(" ===== %Y-%m-%d %H:%M:%S ===== ")   			
+   			# playsound(2500, 1000)
+
+        # os.system('clear')
+
+   			print datetime.datetime.now().strftime(" ===== %Y-%m-%d %H:%M:%S ===== ")
    			for section in ticketSections:
    				print section
 
@@ -64,9 +71,9 @@ def main():
 			parsingIbonData()
     	except Exception,e:
         	print str(e)
-       	
+
 		time.sleep(1)
 
-		
+
 
 main()
